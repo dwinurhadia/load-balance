@@ -1,0 +1,55 @@
+Your Interactive Bash Terminal.
+
+$ minikube version
+minikube version: v1.8.1
+commit: cbda04cf6bbe65e987ae52bb393c10099ab62014
+$ minikube start --wait=false
+* minikube v1.8.1 on Ubuntu 18.04
+* Using the none driver based on user configuration
+* Running on localhost (CPUs=2, Memory=2460MB, Disk=145651MB) ...
+* OS release is Ubuntu 18.04.4 LTS
+* Preparing Kubernetes v1.17.3 on Docker 19.03.6 ...
+  - kubelet.resolv-conf=/run/systemd/resolve/resolv.conf
+* Launching Kubernetes ...
+* Enabling addons: default-storageclass, storage-provisioner
+* Configuring local host environment ...
+* Done! kubectl is now configured to use "minikube"
+$ git clone https://github.com/dwinurhadia/load-balance.git
+Cloning into 'load-balance'...
+remote: Enumerating objects: 61, done.
+remote: Counting objects: 100% (61/61), done.
+remote: Compressing objects: 100% (44/44), done.
+remote: Total 61 (delta 25), reused 45 (delta 16), pack-reused 0
+Unpacking objects: 100% (61/61), done.
+$ cd load-balance/
+$ ls
+ app1                   app2                   docker-compose.yml      nginx-service.yaml   rbac.yaml
+ app1-deployment.yaml   app2-deployment.yaml   nginx                   nginx.yaml.backup   'README (1).md'
+ app1-service.yaml      app2-service.yaml      nginx-deployment.yaml   project.txt          Readme.md
+$ kubectl apply -f app1-deployment.yaml
+deployment.apps/app1 created
+$ kubectl apply -f app2-deployment.yaml
+deployment.apps/app2 created
+$ kubectl apply -f app1-service.yaml
+service/app1 created
+$ kubectl apply -f app2-service.yaml
+service/app2 created
+$ kubectl apply -f nginx-deployment.yaml
+deployment.apps/nginx created
+$ kubectl apply -f nginx-service.yaml
+service/nginx created
+$
+$
+$
+$ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+app1-564d657f7d-bhdwz    1/1     Running   0          103s
+app2-7ff5c7f7bc-lkz84    1/1     Running   0          55s
+nginx-78d84d56fd-jm2hx   1/1     Running   0          17s
+$ kubectl get svc
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+app1         ClusterIP   10.104.71.97     <none>        5001/TCP   49s
+app2         ClusterIP   10.97.75.173     <none>        5002/TCP   39s
+kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP    3m4s
+nginx        ClusterIP   10.111.129.217   <none>        8080/TCP   15s
+$

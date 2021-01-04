@@ -24,7 +24,7 @@ spec:
         io.kompose.service: app2
     spec:
       containers:
-        - image: app2
+        - image: dwinurhadi17/app2
           name: app2
           ports:
             - containerPort: 5000
